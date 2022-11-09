@@ -1,1 +1,1 @@
-export * from './authUser-repository.js'
+export * from './authUser-repository.js';
