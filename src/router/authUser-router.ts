@@ -1,10 +1,11 @@
-import { createUser } from '../controller/index.js';
+import { createUser, logUser } from '../controller/index.js';
 import { Router } from 'express';
-import { validateNewUser } from '../middleware/authUser-middleware.js';
+import { validateSchema } from '../middleware/validateSchema-middleware.js';
+import { createUserSchema, loginUserSchema } from '../schemas/index.js';
 
 const authUserRouter = Router();
 authUserRouter
-  .post('/signin', validateNewUser, createUser) //creates new user
-  .post('/login', () => {}); //logs user
+  .post('/signin', validateSchema(createUserSchema), createUser) //creates new user
+  .post('/login', validateSchema(loginUserSchema), logUser); //logs user
 
 export { authUserRouter };
