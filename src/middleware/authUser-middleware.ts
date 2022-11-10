@@ -1,4 +1,4 @@
-import { userInfoType } from '../protocols/userInfoType.js';
+import { userInfoType } from '../protocols/index.js';
 import { Request, Response, NextFunction } from 'express';
 import { createUserSchema } from '../schemas/userInfoSchema.js';
 

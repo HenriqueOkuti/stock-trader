@@ -2,7 +2,7 @@ import {
   loginUserType,
   userInfoType,
   foundUserInfoType,
-} from '../protocols/userInfoType.js';
+} from '../protocols/index.js';
 import {
   createNewSessionByUserId,
   findUserByEmail,
