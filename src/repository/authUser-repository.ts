@@ -1,11 +1,11 @@
-import db from '../config/database.js';
+import { db } from '../config/index.js';
 import {
   foundUserInfoType,
   loginUserType,
   userInfoType,
 } from '../protocols/index.js';
 import bcrypt from 'bcrypt';
-import { SALT } from '../enums/constants.js';
+import { SALT } from '../enums/index.js';
 
 export function insertUser(user: userInfoType) {
   const passwordHash: string = bcrypt.hashSync(user.password, SALT);

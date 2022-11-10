@@ -1,4 +1,4 @@
-import db from '../config/database.js';
+import { db } from '../config/index.js';
 
 export function findSessionByToken(token: string) {
   return db.query(

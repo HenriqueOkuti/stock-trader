@@ -1,5 +1,5 @@
-import { newStock } from '../protocols/index.js';
-import db from '../config/database.js';
+import { editStockType, newStockType } from '../protocols/index.js';
+import { db } from '../config/index.js';
 
 export function getStocks() {
   return db.query(`
@@ -35,7 +35,7 @@ export function findStockByName(stockName: string) {
   return db.query(`select * from stocks where name = $1;`, [stockName]);
 }
 
-export function createNewStock(stock: newStock) {
+export function createNewStock(stock: newStockType) {
   return db.query(
     `
     with ins1 as (
@@ -46,4 +46,26 @@ export function createNewStock(stock: newStock) {
     ;`,
     [stock.stockName, stock.stockTag, stock.price]
   );
+}
+
+export function findStockById(id: number) {
+  return db.query(`select * from stocks where id = $1;`, [id]);
+}
+
+export function editStockById(editedStock: editStockType) {
+  return db.query(
+    `
+    update stocks 
+	  set 
+  		"name" = $1,
+	  	"stockTag" = $2
+	  where 
+		  id = $3
+    ;`,
+    [editedStock.stockName, editedStock.stockTag, editedStock.id]
+  );
+}
+
+export function deleteStockById(id: number) {
+  return db.query(`delete from stocks where id = $1;`, [id]);
 }

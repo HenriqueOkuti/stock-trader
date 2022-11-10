@@ -1,6 +1,6 @@
 import { userInfoType } from '../protocols/index.js';
 import { Request, Response, NextFunction } from 'express';
-import { createUserSchema } from '../schemas/userInfoSchema.js';
+import { createUserSchema } from '../schemas/index.js';
 
 export function validateNewUser(
   req: Request,

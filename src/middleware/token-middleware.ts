@@ -1,6 +1,6 @@
 import { findSessionByToken } from '../repository/index.js';
 import { Request, Response, NextFunction } from 'express';
-import { tokenSchema } from '../schemas/tokenSchema.js';
+import { tokenSchema } from '../schemas/index.js';
 
 export function verifyToken() {
   return async (req: Request, res: Response, next: NextFunction) => {
