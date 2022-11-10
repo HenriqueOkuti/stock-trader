@@ -1,13 +1,13 @@
-import db from '../config/database.js';
+import { db } from '../config/index.js';
 import {
   foundUserInfoType,
   loginUserType,
   userInfoType,
-} from '../protocols/userInfoType.js';
+} from '../protocols/index.js';
 import bcrypt from 'bcrypt';
+import { SALT } from '../enums/index.js';
 
 export function insertUser(user: userInfoType) {
-  const SALT: number = 10;
   const passwordHash: string = bcrypt.hashSync(user.password, SALT);
   return db.query(
     `insert into users (name, "email", "password") values ($1, $2, $3);`,

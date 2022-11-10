@@ -6,7 +6,7 @@ export function validateSchema(schema: ObjectSchema<any>) {
     const infoToValidate = req.body;
     const { error } = schema.validate(infoToValidate);
     if (error) {
-      return res.sendStatus(401);
+      return res.sendStatus(400);
     } else {
       res.locals.info = infoToValidate;
       next();
