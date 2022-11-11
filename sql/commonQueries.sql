@@ -42,3 +42,28 @@ update "userBalance"
 set balance = $2
 where "userId" = $1;
 
+-- Returns table with:
+-- 	rowId (id), 
+-- 	userId, 
+-- 	value if transaction occurs (newBalance), 
+-- 	if the transaction is Valid (isValidTransaction)
+select id, "userId" , (balance - $2) as "newBalance",
+	case
+		when (balance - $2 >= '0') then true
+		else false
+	end
+	as "isValidTransaction"
+from "userBalance" ub
+where "userId" = $1
+;
+
+-- gets "stockInfo" based on the lastUpdate
+select s.id, s."name" , s."stockTag", si.price, si."lastUpdate" 
+from "stockInfo" si 
+join 
+	(
+	select si."stockId" , MAX(si."lastUpdate") as "latestUpdate" from "stockInfo" si group by si."stockId"
+	) as aux on aux."stockId" = si."stockId" 
+join stocks s on s.id = si."stockId"
+where aux."latestUpdate" = si."lastUpdate";
+;

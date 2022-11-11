@@ -1,11 +1,14 @@
-import { validateSchema, verifyToken } from '../middleware/index.js';
+import {
+  validateSchema,
+  verifyToken,
+  findUserByToken,
+} from '../middleware/index.js';
 import { Router } from 'express';
 import {
   createUserBalance,
   getUserBalance,
   modifyUserBalance,
 } from '../controller/index.js';
-import { findUserByToken } from '../middleware/index.js';
 import { balanceSchema, editBalanceSchema } from '../schemas/index.js';
 
 const userBalanceRouter = Router();

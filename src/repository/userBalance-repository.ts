@@ -1,5 +1,4 @@
 import { valueBalance } from '../protocols/userBalanceType.js';
-import { foundUserInfoType } from '../protocols/userInfoType.js';
 import { db } from '../config/index.js';
 
 export function getUserIdByToken(token: string) {

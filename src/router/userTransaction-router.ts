@@ -1,10 +1,10 @@
+import { verifyToken, findUserByToken } from '../middleware/index.js';
 import { Router } from 'express';
+import { getTransactions, newTransaction } from '../controller/index.js';
 
 const userTransactionRouter = Router();
 userTransactionRouter
-  .post('/transaction', () => {}) //new transaction
-  .put('/transaction', () => {}) //edit transaction
-  .get('/transaction', () => {}) //get transaction
-  .delete('/transaction', () => {}); //delete transaction
+  .post('/transaction', verifyToken(), findUserByToken(), newTransaction) //new transaction
+  .get('/transaction', verifyToken(), findUserByToken(), getTransactions); //get transaction
 
 export { userTransactionRouter };
