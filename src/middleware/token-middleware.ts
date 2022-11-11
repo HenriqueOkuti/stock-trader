@@ -9,21 +9,16 @@ export function verifyToken() {
       'Bearer ',
       ''
     );
-
-    //token validation: format
     const { error } = tokenSchema.validate(authorizationToken);
     if (error) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
     }
-
-    //token validation: is it valid?
     const isSessionValid = (await findSessionByToken(authorizationToken))
       .rows[0];
 
     if (!isSessionValid) {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
     }
-
     res.locals.token = authorizationToken;
     next();
   };

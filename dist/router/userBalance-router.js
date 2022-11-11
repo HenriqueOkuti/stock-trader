@@ -4,7 +4,7 @@ import { createUserBalance, getUserBalance, modifyUserBalance, } from '../contro
 import { balanceSchema, editBalanceSchema } from '../schemas/index.js';
 var userBalanceRouter = Router();
 userBalanceRouter
-    .post('/balance', verifyToken(), validateSchema(balanceSchema), findUserByToken(), createUserBalance) //creates userBalance
-    .put('/balance', verifyToken(), validateSchema(editBalanceSchema), findUserByToken(), modifyUserBalance) //edits userBalance
-    .get('/balance', verifyToken(), findUserByToken(), getUserBalance); //gets userBalance
+    .post('/balance', verifyToken(), validateSchema(balanceSchema), findUserByToken(), createUserBalance)
+    .put('/balance', verifyToken(), validateSchema(editBalanceSchema), findUserByToken(), modifyUserBalance)
+    .get('/balance', verifyToken(), findUserByToken(), getUserBalance);
 export { userBalanceRouter };

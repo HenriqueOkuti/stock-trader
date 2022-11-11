@@ -50,12 +50,12 @@ export function getUserBalance(req, res) {
                 case 2:
                     userBalance = (_a.sent()).rows[0];
                     if (!userBalance) {
-                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)]; // Not found
+                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)];
                     }
-                    return [2 /*return*/, res.status(httpStatus.OK).send(userBalance)]; // OK! + userBalance
+                    return [2 /*return*/, res.status(httpStatus.OK).send(userBalance)];
                 case 3:
                     error_1 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
                 case 4: return [2 /*return*/];
             }
         });
@@ -69,7 +69,6 @@ export function createUserBalance(req, res) {
                 case 0:
                     userInfo = res.locals.info;
                     userBalance = req.body;
-                    //Quick balance cleanup
                     userBalance.balance = +userBalance.balance;
                     _a.label = 1;
                 case 1:
@@ -80,7 +79,7 @@ export function createUserBalance(req, res) {
                     return [2 /*return*/, res.sendStatus(httpStatus.CREATED)];
                 case 3:
                     error_2 = _a.sent();
-                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_2.detail)]; //Server error
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_2.detail)];
                 case 4: return [2 /*return*/];
             }
         });
@@ -100,10 +99,10 @@ export function modifyUserBalance(req, res) {
                     return [4 /*yield*/, updateBalance(userInfo.userId, newUserBalance)];
                 case 2:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.OK)]; // OK!
+                    return [2 /*return*/, res.sendStatus(httpStatus.OK)];
                 case 3:
                     error_3 = _a.sent();
-                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_3.detail)]; //Server error
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_3.detail)];
                 case 4: return [2 /*return*/];
             }
         });

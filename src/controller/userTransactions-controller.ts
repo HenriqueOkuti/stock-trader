@@ -28,7 +28,7 @@ export async function getTransactions(req: Request, res: Response) {
       return res.status(httpStatus.OK).send(transactions);
     }
   } catch (error) {
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR); //Server error
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -44,7 +44,7 @@ export async function newTransaction(req: Request, res: Response) {
     ).rows[0] as transactionValidationType;
 
     if (!validityInfo.isValidTransaction) {
-      return res.sendStatus(httpStatus.UNAUTHORIZED); //Unauthorized
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
     }
 
     await createTransaction(
@@ -58,10 +58,9 @@ export async function newTransaction(req: Request, res: Response) {
       validityInfo.newBalance
     );
 
-    return res.sendStatus(httpStatus.OK); //Ok!
+    return res.sendStatus(httpStatus.OK);
   } catch (error) {
-    console.log(error);
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR); //Server error
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -83,21 +82,3 @@ type transactionValidationType = {
   newBalance: string;
   isValidTransaction: boolean;
 };
-
-export async function editTransaction(req: Request, res: Response) {
-  const userInfo = res.locals.info as foundUserInfoType;
-  try {
-    return res.sendStatus(httpStatus.OK); //Ok!
-  } catch (error) {
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR); //Server error
-  }
-}
-
-export async function deleteTransaction(req: Request, res: Response) {
-  const userInfo = res.locals.info as foundUserInfoType;
-  try {
-    return res.sendStatus(httpStatus.OK); //Ok!
-  } catch (error) {
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR); //Server error
-  }
-}

@@ -51,10 +51,10 @@ export function createUser(req, res) {
                     return [4 /*yield*/, insertUser(userInfo)];
                 case 2:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.CREATED)]; //created
+                    return [2 /*return*/, res.sendStatus(httpStatus.CREATED)];
                 case 3:
                     error_1 = _a.sent();
-                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_1.detail)]; //server error
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_1.detail)];
                 case 4: return [2 /*return*/];
             }
         });
@@ -74,7 +74,7 @@ export function logUser(req, res) {
                 case 2:
                     foundUser = _a.sent();
                     if (!foundUser.rows[0] || foundUser.rows.length > 1) {
-                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)]; //not found
+                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)];
                     }
                     foundUserInfo = foundUser.rows[0];
                     if (!bcrypt.compareSync(userLoginInfo.password, foundUserInfo.password)) return [3 /*break*/, 5];
@@ -85,12 +85,12 @@ export function logUser(req, res) {
                     return [4 /*yield*/, createNewSessionByUserId(foundUserInfo, token)];
                 case 4:
                     _a.sent();
-                    return [2 /*return*/, res.status(httpStatus.CREATED).send({ token: token })]; //created + token
-                case 5: return [2 /*return*/, res.sendStatus(httpStatus.UNAUTHORIZED)]; //unauthorized
+                    return [2 /*return*/, res.status(httpStatus.CREATED).send({ token: token })];
+                case 5: return [2 /*return*/, res.sendStatus(httpStatus.UNAUTHORIZED)];
                 case 6: return [3 /*break*/, 8];
                 case 7:
                     error_2 = _a.sent();
-                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_2.detail)]; //server error
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_2.detail)];
                 case 8: return [2 /*return*/];
             }
         });

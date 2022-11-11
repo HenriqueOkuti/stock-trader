@@ -63,7 +63,7 @@ export function getTransactions(req, res) {
                 case 5: return [3 /*break*/, 7];
                 case 6:
                     error_1 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
                 case 7: return [2 /*return*/];
             }
         });
@@ -88,7 +88,7 @@ export function newTransaction(req, res) {
                 case 3:
                     validityInfo = (_a.sent()).rows[0];
                     if (!validityInfo.isValidTransaction) {
-                        return [2 /*return*/, res.sendStatus(httpStatus.UNAUTHORIZED)]; //Unauthorized
+                        return [2 /*return*/, res.sendStatus(httpStatus.UNAUTHORIZED)];
                     }
                     return [4 /*yield*/, createTransaction(userInfo.userId, transactionInfo.stockId, stockInfo.price)];
                 case 4:
@@ -96,43 +96,12 @@ export function newTransaction(req, res) {
                     return [4 /*yield*/, updateBalanceAfterTransaction(userInfo.userId, validityInfo.newBalance)];
                 case 5:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.OK)]; //Ok!
+                    return [2 /*return*/, res.sendStatus(httpStatus.OK)];
                 case 6:
                     error_2 = _a.sent();
-                    console.log(error_2);
-                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
                 case 7: return [2 /*return*/];
             }
-        });
-    });
-}
-export function editTransaction(req, res) {
-    return __awaiter(this, void 0, void 0, function () {
-        var userInfo;
-        return __generator(this, function (_a) {
-            userInfo = res.locals.info;
-            try {
-                return [2 /*return*/, res.sendStatus(httpStatus.OK)]; //Ok!
-            }
-            catch (error) {
-                return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
-            }
-            return [2 /*return*/];
-        });
-    });
-}
-export function deleteTransaction(req, res) {
-    return __awaiter(this, void 0, void 0, function () {
-        var userInfo;
-        return __generator(this, function (_a) {
-            userInfo = res.locals.info;
-            try {
-                return [2 /*return*/, res.sendStatus(httpStatus.OK)]; //Ok!
-            }
-            catch (error) {
-                return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
-            }
-            return [2 /*return*/];
         });
     });
 }

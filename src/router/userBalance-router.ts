@@ -19,14 +19,14 @@ userBalanceRouter
     validateSchema(balanceSchema),
     findUserByToken(),
     createUserBalance
-  ) //creates userBalance
+  )
   .put(
     '/balance',
     verifyToken(),
     validateSchema(editBalanceSchema),
     findUserByToken(),
     modifyUserBalance
-  ) //edits userBalance
-  .get('/balance', verifyToken(), findUserByToken(), getUserBalance); //gets userBalance
+  )
+  .get('/balance', verifyToken(), findUserByToken(), getUserBalance);
 
 export { userBalanceRouter };

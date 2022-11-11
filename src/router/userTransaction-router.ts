@@ -4,7 +4,7 @@ import { getTransactions, newTransaction } from '../controller/index.js';
 
 const userTransactionRouter = Router();
 userTransactionRouter
-  .post('/transaction', verifyToken(), findUserByToken(), newTransaction) //new transaction
-  .get('/transaction', verifyToken(), findUserByToken(), getTransactions); //get transaction
+  .post('/transaction', verifyToken(), findUserByToken(), newTransaction)
+  .get('/transaction', verifyToken(), findUserByToken(), getTransactions);
 
 export { userTransactionRouter };

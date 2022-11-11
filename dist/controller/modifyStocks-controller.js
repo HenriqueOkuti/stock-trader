@@ -57,10 +57,10 @@ export function fetchStocks(req, res) {
                 case 3: return [4 /*yield*/, getStocks()];
                 case 4:
                     stocks = (_a.sent()).rows;
-                    return [2 /*return*/, res.status(httpStatus.ACCEPTED).send(stocks)]; // OK!
+                    return [2 /*return*/, res.status(httpStatus.ACCEPTED).send(stocks)];
                 case 5:
                     error_1 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; // server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
                 case 6: return [2 /*return*/];
             }
         });
@@ -80,15 +80,15 @@ export function createStock(req, res) {
                 case 2:
                     stockExists = (_a.sent()).rows[0];
                     if (stockExists) {
-                        return [2 /*return*/, res.sendStatus(httpStatus.CONFLICT)]; // conflict
+                        return [2 /*return*/, res.sendStatus(httpStatus.CONFLICT)];
                     }
                     return [4 /*yield*/, createNewStock(newStock)];
                 case 3:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.CREATED)]; // created
+                    return [2 /*return*/, res.sendStatus(httpStatus.CREATED)];
                 case 4:
                     error_2 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; // server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
                 case 5: return [2 /*return*/];
             }
         });
@@ -109,18 +109,18 @@ export function editStock(req, res) {
                     stockExists = (_a.sent())
                         .rows[0];
                     if (!stockExists) {
-                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)]; //  not found
+                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)];
                     }
                     if (verifyNameAndTag(stockExists, editedStock)) {
-                        return [2 /*return*/, res.sendStatus(httpStatus.BAD_REQUEST)]; // bad request
+                        return [2 /*return*/, res.sendStatus(httpStatus.BAD_REQUEST)];
                     }
                     return [4 /*yield*/, editStockById(editedStock)];
                 case 3:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.OK)]; // OK!
+                    return [2 /*return*/, res.sendStatus(httpStatus.OK)];
                 case 4:
                     error_3 = _a.sent();
-                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_3.detail)]; // server error
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_3.detail)];
                 case 5: return [2 /*return*/];
             }
         });
@@ -145,10 +145,10 @@ export function deleteStock(req, res) {
                     return [4 /*yield*/, deleteStockById(stockId)];
                 case 2:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.OK)]; // OK!
+                    return [2 /*return*/, res.sendStatus(httpStatus.OK)];
                 case 3:
                     error_4 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; // server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
                 case 4: return [2 /*return*/];
             }
         });
