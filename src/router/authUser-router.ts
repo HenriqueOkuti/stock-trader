@@ -5,7 +5,7 @@ import { createUserSchema, loginUserSchema } from '../schemas/index.js';
 
 const authUserRouter = Router();
 authUserRouter
-  .post('/signin', validateSchema(createUserSchema), createUser) //creates new user
-  .post('/login', validateSchema(loginUserSchema), logUser); //logs user
+  .post('/signin', validateSchema(createUserSchema), createUser)
+  .post('/login', validateSchema(loginUserSchema), logUser);
 
 export { authUserRouter };

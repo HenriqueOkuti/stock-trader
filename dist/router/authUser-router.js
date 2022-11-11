@@ -1,8 +1,9 @@
-//import { createUser } from './controller/index.js';
+import { createUser, logUser } from '../controller/index.js';
 import { Router } from 'express';
+import { validateSchema } from '../middleware/index.js';
+import { createUserSchema, loginUserSchema } from '../schemas/index.js';
 var authUserRouter = Router();
 authUserRouter
-    .post('/signin', function () { }) //creates new user
-    .post('/login', function () { }) //logs user
-;
+    .post('/signin', validateSchema(createUserSchema), createUser)
+    .post('/login', validateSchema(loginUserSchema), logUser);
 export { authUserRouter };

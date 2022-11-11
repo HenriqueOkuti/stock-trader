@@ -5,30 +5,30 @@ import {
   getUserBalanceByUserId,
   updateBalance,
 } from '../repository/index.js';
+import httpStatus from 'http-status';
 
 export async function getUserBalance(req: Request, res: Response) {
   const userInfo = res.locals.info as foundUserInfoType;
   try {
     const userBalance = (await getUserBalanceByUserId(userInfo.userId)).rows[0];
     if (!userBalance) {
-      return res.sendStatus(404); // Not found
+      return res.sendStatus(httpStatus.NOT_FOUND);
     }
-    return res.status(200).send(userBalance); // OK! + userBalance
+    return res.status(httpStatus.OK).send(userBalance);
   } catch (error) {
-    return res.sendStatus(500); //Server error
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function createUserBalance(req: Request, res: Response) {
   const userInfo = res.locals.info as foundUserInfoType;
   const userBalance = req.body as valueBalance;
-  //Quick balance cleanup
   userBalance.balance = +userBalance.balance;
   try {
     await createNewUserBalance(userInfo.userId, userBalance);
-    return res.sendStatus(201);
+    return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
-    return res.status(500).send(error.detail); //Server error
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.detail);
   }
 }
 
@@ -38,8 +38,8 @@ export async function modifyUserBalance(req: Request, res: Response) {
 
   try {
     await updateBalance(userInfo.userId, newUserBalance);
-    return res.sendStatus(200); // OK!
+    return res.sendStatus(httpStatus.OK);
   } catch (error) {
-    return res.status(500).send(error.detail); //Server error
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.detail);
   }
 }

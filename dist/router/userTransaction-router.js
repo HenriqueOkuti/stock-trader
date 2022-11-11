@@ -1,9 +1,8 @@
+import { verifyToken, findUserByToken } from '../middleware/index.js';
 import { Router } from 'express';
+import { getTransactions, newTransaction } from '../controller/index.js';
 var userTransactionRouter = Router();
 userTransactionRouter
-    .post('/transaction', function () { }) //new transaction
-    .put('/transaction', function () { }) //edit transaction
-    .get('/transaction', function () { }) //get transaction
-["delete"]('/transaction', function () { }) //delete transaction
-;
+    .post('/transaction', verifyToken(), findUserByToken(), newTransaction)
+    .get('/transaction', verifyToken(), findUserByToken(), getTransactions);
 export { userTransactionRouter };

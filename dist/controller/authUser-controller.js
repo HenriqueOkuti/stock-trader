@@ -34,12 +34,65 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import { createNewSessionByUserId, findUserByEmail, insertUser, invalidatesOldUserSessionByUserId, } from '../repository/index.js';
+import { v4 as uuid } from 'uuid';
+import bcrypt from 'bcrypt';
+import httpStatus from 'http-status';
 export function createUser(req, res) {
     return __awaiter(this, void 0, void 0, function () {
+        var userInfo, error_1;
         return __generator(this, function (_a) {
-            console.log('here');
-            //const userInfo = req.body;
-            return [2 /*return*/, res.sendStatus(200)];
+            switch (_a.label) {
+                case 0:
+                    userInfo = res.locals.info;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, insertUser(userInfo)];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/, res.sendStatus(httpStatus.CREATED)];
+                case 3:
+                    error_1 = _a.sent();
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_1.detail)];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+export function logUser(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var userLoginInfo, foundUser, foundUserInfo, token, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    userLoginInfo = res.locals.info;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 7, , 8]);
+                    return [4 /*yield*/, findUserByEmail(userLoginInfo)];
+                case 2:
+                    foundUser = _a.sent();
+                    if (!foundUser.rows[0] || foundUser.rows.length > 1) {
+                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)];
+                    }
+                    foundUserInfo = foundUser.rows[0];
+                    if (!bcrypt.compareSync(userLoginInfo.password, foundUserInfo.password)) return [3 /*break*/, 5];
+                    token = uuid();
+                    return [4 /*yield*/, invalidatesOldUserSessionByUserId(foundUserInfo)];
+                case 3:
+                    _a.sent();
+                    return [4 /*yield*/, createNewSessionByUserId(foundUserInfo, token)];
+                case 4:
+                    _a.sent();
+                    return [2 /*return*/, res.status(httpStatus.CREATED).send({ token: token })];
+                case 5: return [2 /*return*/, res.sendStatus(httpStatus.UNAUTHORIZED)];
+                case 6: return [3 /*break*/, 8];
+                case 7:
+                    error_2 = _a.sent();
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_2.detail)];
+                case 8: return [2 /*return*/];
+            }
         });
     });
 }
