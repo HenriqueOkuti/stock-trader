@@ -16,6 +16,20 @@ export function createNewUserBalance(
 ) {
   return db.query(
     `insert into "userBalance" ("userId", balance) values ($1, $2);`,
-    [userId, userBalance.balance]
+    [userId, fixDecimals(userBalance.balance)]
   );
+}
+
+export function updateBalance(userId: number, userBalance: valueBalance) {
+  return db.query(
+    `
+    update "userBalance" 
+	    set balance = $1 
+    where "userId" = $2;`,
+    [fixDecimals(userBalance.balance), userId]
+  );
+}
+
+function fixDecimals(value: number): string {
+  return value.toString().replace('.', ',');
 }
