@@ -34,12 +34,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { createNewSessionByUserId, findUserByEmail, insertUser, invalidatesOldUserSessionByUserId, } from '../repository/index.js';
-import { v4 as uuid } from 'uuid';
-import bcrypt from 'bcrypt';
-export function createUser(req, res) {
+import { createNewUserBalance, getUserBalanceByUserId, updateBalance, } from '../repository/index.js';
+export function getUserBalance(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var userInfo, error_1;
+        var userInfo, userBalance, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -47,50 +45,65 @@ export function createUser(req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, insertUser(userInfo)];
+                    return [4 /*yield*/, getUserBalanceByUserId(userInfo.userId)];
                 case 2:
-                    _a.sent();
-                    return [2 /*return*/, res.sendStatus(201)]; //created
+                    userBalance = (_a.sent()).rows[0];
+                    if (!userBalance) {
+                        return [2 /*return*/, res.sendStatus(404)]; // Not found
+                    }
+                    return [2 /*return*/, res.status(200).send(userBalance)]; // OK! + userBalance
                 case 3:
                     error_1 = _a.sent();
-                    return [2 /*return*/, res.status(500).send(error_1.detail)]; //server error
+                    return [2 /*return*/, res.sendStatus(500)]; //Server error
                 case 4: return [2 /*return*/];
             }
         });
     });
 }
-export function logUser(req, res) {
+export function createUserBalance(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var userLoginInfo, foundUser, foundUserInfo, token, error_2;
+        var userInfo, userBalance, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    userLoginInfo = res.locals.info;
+                    userInfo = res.locals.info;
+                    userBalance = req.body;
+                    //Quick balance cleanup
+                    userBalance.balance = +userBalance.balance;
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 7, , 8]);
-                    return [4 /*yield*/, findUserByEmail(userLoginInfo)];
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, createNewUserBalance(userInfo.userId, userBalance)];
                 case 2:
-                    foundUser = _a.sent();
-                    if (!foundUser.rows[0] || foundUser.rows.length > 1) {
-                        return [2 /*return*/, res.sendStatus(404)];
-                    }
-                    foundUserInfo = foundUser.rows[0];
-                    if (!bcrypt.compareSync(userLoginInfo.password, foundUserInfo.password)) return [3 /*break*/, 5];
-                    token = uuid();
-                    return [4 /*yield*/, invalidatesOldUserSessionByUserId(foundUserInfo)];
+                    _a.sent();
+                    return [2 /*return*/, res.sendStatus(201)];
                 case 3:
-                    _a.sent();
-                    return [4 /*yield*/, createNewSessionByUserId(foundUserInfo, token)];
-                case 4:
-                    _a.sent();
-                    return [2 /*return*/, res.status(201).send({ token: token })]; //created + token
-                case 5: return [2 /*return*/, res.sendStatus(401)]; //unauthorized
-                case 6: return [3 /*break*/, 8];
-                case 7:
                     error_2 = _a.sent();
-                    return [2 /*return*/, res.status(500).send(error_2.detail)]; //server error
-                case 8: return [2 /*return*/];
+                    return [2 /*return*/, res.status(500).send(error_2.detail)]; //Server error
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+export function modifyUserBalance(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var userInfo, newUserBalance, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    userInfo = res.locals.info;
+                    newUserBalance = req.body;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, updateBalance(userInfo.userId, newUserBalance)];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/, res.sendStatus(200)]; // OK!
+                case 3:
+                    error_3 = _a.sent();
+                    return [2 /*return*/, res.status(500).send(error_3.detail)]; //Server error
+                case 4: return [2 /*return*/];
             }
         });
     });

@@ -34,63 +34,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { createNewSessionByUserId, findUserByEmail, insertUser, invalidatesOldUserSessionByUserId, } from '../repository/index.js';
-import { v4 as uuid } from 'uuid';
+import { db } from '../config/index.js';
 import bcrypt from 'bcrypt';
-export function createUser(req, res) {
+import { SALT } from '../enums/index.js';
+export function insertUser(user) {
+    var passwordHash = bcrypt.hashSync(user.password, SALT);
+    return db.query("insert into users (name, \"email\", \"password\") values ($1, $2, $3);", [user.name, user.email, passwordHash]);
+}
+export function findUserByEmail(user) {
+    return db.query("select * from users where email = $1;", [user.email]);
+}
+export function invalidatesOldUserSessionByUserId(user) {
     return __awaiter(this, void 0, void 0, function () {
-        var userInfo, error_1;
+        var idSessions, i;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    userInfo = res.locals.info;
-                    _a.label = 1;
+                case 0: return [4 /*yield*/, db.query("select * from sessions where \"userId\" = $1;", [user.id])];
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, insertUser(userInfo)];
+                    idSessions = (_a.sent()).rows;
+                    if (!idSessions[0]) {
+                        return [2 /*return*/];
+                    }
+                    i = 0;
+                    _a.label = 2;
                 case 2:
-                    _a.sent();
-                    return [2 /*return*/, res.sendStatus(201)]; //created
+                    if (!(i < idSessions.length)) return [3 /*break*/, 5];
+                    return [4 /*yield*/, db.query("\n    update sessions\n    set \"isValid\" = false\n    where id = $1\n    ;", [idSessions[i].id])];
                 case 3:
-                    error_1 = _a.sent();
-                    return [2 /*return*/, res.status(500).send(error_1.detail)]; //server error
-                case 4: return [2 /*return*/];
+                    _a.sent();
+                    _a.label = 4;
+                case 4:
+                    i++;
+                    return [3 /*break*/, 2];
+                case 5: return [2 /*return*/];
             }
         });
     });
 }
-export function logUser(req, res) {
+export function createNewSessionByUserId(user, token) {
     return __awaiter(this, void 0, void 0, function () {
-        var userLoginInfo, foundUser, foundUserInfo, token, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    userLoginInfo = res.locals.info;
-                    _a.label = 1;
+                case 0: return [4 /*yield*/, db.query("\n  insert into sessions (\"userId\", token, \"createdAt\", \"isValid\") \n  values ($1, $2, now(), true);\n  ", [user.id, token])];
                 case 1:
-                    _a.trys.push([1, 7, , 8]);
-                    return [4 /*yield*/, findUserByEmail(userLoginInfo)];
-                case 2:
-                    foundUser = _a.sent();
-                    if (!foundUser.rows[0] || foundUser.rows.length > 1) {
-                        return [2 /*return*/, res.sendStatus(404)];
-                    }
-                    foundUserInfo = foundUser.rows[0];
-                    if (!bcrypt.compareSync(userLoginInfo.password, foundUserInfo.password)) return [3 /*break*/, 5];
-                    token = uuid();
-                    return [4 /*yield*/, invalidatesOldUserSessionByUserId(foundUserInfo)];
-                case 3:
                     _a.sent();
-                    return [4 /*yield*/, createNewSessionByUserId(foundUserInfo, token)];
-                case 4:
-                    _a.sent();
-                    return [2 /*return*/, res.status(201).send({ token: token })]; //created + token
-                case 5: return [2 /*return*/, res.sendStatus(401)]; //unauthorized
-                case 6: return [3 /*break*/, 8];
-                case 7:
-                    error_2 = _a.sent();
-                    return [2 /*return*/, res.status(500).send(error_2.detail)]; //server error
-                case 8: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
     });
