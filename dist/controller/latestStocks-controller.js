@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { getLatestStockPrices } from '../repository/index.js';
+import httpStatus from 'http-status';
 export function latestStockPrices(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var stockIds, latestStocks, error_1;
@@ -51,10 +52,10 @@ export function latestStockPrices(req, res) {
                     return [4 /*yield*/, getLatestStockPrices(stockIds)];
                 case 2:
                     latestStocks = (_a.sent()).rows;
-                    return [2 /*return*/, res.status(200).send(latestStocks)]; // OK!
+                    return [2 /*return*/, res.status(httpStatus.OK).send(latestStocks)];
                 case 3:
                     error_1 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(500)]; // Server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
                 case 4: return [2 /*return*/];
             }
         });

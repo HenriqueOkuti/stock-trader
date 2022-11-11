@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { createTransaction, findStockInfoById, getTransactionsByUserId, getTransactionsByUserIdWithArray, updateBalanceAfterTransaction, validityOfTransaction, } from '../repository/index.js';
+import httpStatus from 'http-status';
 export function getTransactions(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userInfo, stockIds, transactions, transactions, error_1;
@@ -54,16 +55,15 @@ export function getTransactions(req, res) {
                 case 2:
                     transactions = (_a.sent())
                         .rows;
-                    return [2 /*return*/, res.status(200).send(transactions)];
+                    return [2 /*return*/, res.status(httpStatus.OK).send(transactions)];
                 case 3: return [4 /*yield*/, getTransactionsByUserIdWithArray(userInfo.userId, stockIds)];
                 case 4:
                     transactions = (_a.sent()).rows;
-                    return [2 /*return*/, res.status(200).send(transactions)];
+                    return [2 /*return*/, res.status(httpStatus.OK).send(transactions)];
                 case 5: return [3 /*break*/, 7];
                 case 6:
                     error_1 = _a.sent();
-                    console.log(error_1);
-                    return [2 /*return*/, res.sendStatus(500)]; //Server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
                 case 7: return [2 /*return*/];
             }
         });
@@ -88,7 +88,7 @@ export function newTransaction(req, res) {
                 case 3:
                     validityInfo = (_a.sent()).rows[0];
                     if (!validityInfo.isValidTransaction) {
-                        return [2 /*return*/, res.sendStatus(401)]; //Unauthorized
+                        return [2 /*return*/, res.sendStatus(httpStatus.UNAUTHORIZED)]; //Unauthorized
                     }
                     return [4 /*yield*/, createTransaction(userInfo.userId, transactionInfo.stockId, stockInfo.price)];
                 case 4:
@@ -96,11 +96,11 @@ export function newTransaction(req, res) {
                     return [4 /*yield*/, updateBalanceAfterTransaction(userInfo.userId, validityInfo.newBalance)];
                 case 5:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(200)]; //Ok!
+                    return [2 /*return*/, res.sendStatus(httpStatus.OK)]; //Ok!
                 case 6:
                     error_2 = _a.sent();
                     console.log(error_2);
-                    return [2 /*return*/, res.sendStatus(500)]; //Server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
                 case 7: return [2 /*return*/];
             }
         });
@@ -112,10 +112,10 @@ export function editTransaction(req, res) {
         return __generator(this, function (_a) {
             userInfo = res.locals.info;
             try {
-                return [2 /*return*/, res.sendStatus(200)]; //Ok!
+                return [2 /*return*/, res.sendStatus(httpStatus.OK)]; //Ok!
             }
             catch (error) {
-                return [2 /*return*/, res.sendStatus(500)]; //Server error
+                return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
             }
             return [2 /*return*/];
         });
@@ -127,10 +127,10 @@ export function deleteTransaction(req, res) {
         return __generator(this, function (_a) {
             userInfo = res.locals.info;
             try {
-                return [2 /*return*/, res.sendStatus(200)]; //Ok!
+                return [2 /*return*/, res.sendStatus(httpStatus.OK)]; //Ok!
             }
             catch (error) {
-                return [2 /*return*/, res.sendStatus(500)]; //Server error
+                return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
             }
             return [2 /*return*/];
         });

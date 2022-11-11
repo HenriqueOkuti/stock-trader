@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { getUserIdByToken } from '../repository/index.js';
+import httpStatus from 'http-status';
 export function findUserByToken() {
     var _this = this;
     return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
@@ -47,7 +48,7 @@ export function findUserByToken() {
                 case 1:
                     user = (_a.sent()).rows[0];
                     if (!user) {
-                        return [2 /*return*/, res.sendStatus(400)];
+                        return [2 /*return*/, res.sendStatus(httpStatus.BAD_REQUEST)];
                     }
                     else {
                         res.locals.info = user;

@@ -7,6 +7,7 @@ import {
   userBalanceRouter,
   userTransactionRouter,
   latestStocksRouter,
+  nonExistentRouter,
 } from './router/index.js';
 
 const server = express();
@@ -17,7 +18,8 @@ server
   .use(modifyStocksRouter)
   .use(userBalanceRouter)
   .use(userTransactionRouter)
-  .use(latestStocksRouter);
+  .use(latestStocksRouter)
+  .use(nonExistentRouter);
 
 console.clear();
 server.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));

@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { createNewStock, deleteStockById, editStockById, findStockById, findStockByName, getSpecificStock, getStocks, } from '../repository/index.js';
+import httpStatus from 'http-status';
 export function fetchStocks(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var specificStockId, specificStock, stocks, error_1;
@@ -50,16 +51,16 @@ export function fetchStocks(req, res) {
                 case 2:
                     specificStock = (_a.sent()).rows;
                     if (specificStock[0]) {
-                        return [2 /*return*/, res.status(202).send(specificStock)];
+                        return [2 /*return*/, res.status(httpStatus.ACCEPTED).send(specificStock)];
                     }
                     _a.label = 3;
                 case 3: return [4 /*yield*/, getStocks()];
                 case 4:
                     stocks = (_a.sent()).rows;
-                    return [2 /*return*/, res.status(202).send(stocks)]; // OK!
+                    return [2 /*return*/, res.status(httpStatus.ACCEPTED).send(stocks)]; // OK!
                 case 5:
                     error_1 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(500)]; // server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; // server error
                 case 6: return [2 /*return*/];
             }
         });
@@ -79,15 +80,15 @@ export function createStock(req, res) {
                 case 2:
                     stockExists = (_a.sent()).rows[0];
                     if (stockExists) {
-                        return [2 /*return*/, res.sendStatus(409)]; // conflict
+                        return [2 /*return*/, res.sendStatus(httpStatus.CONFLICT)]; // conflict
                     }
                     return [4 /*yield*/, createNewStock(newStock)];
                 case 3:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(201)]; // created
+                    return [2 /*return*/, res.sendStatus(httpStatus.CREATED)]; // created
                 case 4:
                     error_2 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(500)]; // server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; // server error
                 case 5: return [2 /*return*/];
             }
         });
@@ -108,18 +109,18 @@ export function editStock(req, res) {
                     stockExists = (_a.sent())
                         .rows[0];
                     if (!stockExists) {
-                        return [2 /*return*/, res.sendStatus(404)]; //  not found
+                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)]; //  not found
                     }
                     if (verifyNameAndTag(stockExists, editedStock)) {
-                        return [2 /*return*/, res.sendStatus(400)]; // bad request
+                        return [2 /*return*/, res.sendStatus(httpStatus.BAD_REQUEST)]; // bad request
                     }
                     return [4 /*yield*/, editStockById(editedStock)];
                 case 3:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(200)]; // OK!
+                    return [2 /*return*/, res.sendStatus(httpStatus.OK)]; // OK!
                 case 4:
                     error_3 = _a.sent();
-                    return [2 /*return*/, res.status(500).send(error_3.detail)]; // server error
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_3.detail)]; // server error
                 case 5: return [2 /*return*/];
             }
         });
@@ -144,10 +145,10 @@ export function deleteStock(req, res) {
                     return [4 /*yield*/, deleteStockById(stockId)];
                 case 2:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(200)]; // OK!
+                    return [2 /*return*/, res.sendStatus(httpStatus.OK)]; // OK!
                 case 3:
                     error_4 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(500)]; // server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; // server error
                 case 4: return [2 /*return*/];
             }
         });

@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { findSessionByToken } from '../repository/index.js';
 import { tokenSchema } from '../schemas/index.js';
+import httpStatus from 'http-status';
 export function verifyToken() {
     var _this = this;
     return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
@@ -46,14 +47,14 @@ export function verifyToken() {
                     authorizationToken = req.headers.authorization.replace('Bearer ', '');
                     error = tokenSchema.validate(authorizationToken).error;
                     if (error) {
-                        return [2 /*return*/, res.sendStatus(400)];
+                        return [2 /*return*/, res.sendStatus(httpStatus.BAD_REQUEST)];
                     }
                     return [4 /*yield*/, findSessionByToken(authorizationToken)];
                 case 1:
                     isSessionValid = (_a.sent())
                         .rows[0];
                     if (!isSessionValid) {
-                        return [2 /*return*/, res.sendStatus(401)];
+                        return [2 /*return*/, res.sendStatus(httpStatus.UNAUTHORIZED)];
                     }
                     res.locals.token = authorizationToken;
                     next();

@@ -8,6 +8,7 @@ import {
 } from '../repository/index.js';
 import { Request, Response } from 'express';
 import { foundUserInfoType } from '../protocols/index.js';
+import httpStatus from 'http-status';
 
 export async function getTransactions(req: Request, res: Response) {
   const userInfo = res.locals.info as foundUserInfoType;
@@ -19,16 +20,15 @@ export async function getTransactions(req: Request, res: Response) {
     if (!stockIds[0]) {
       const transactions = (await getTransactionsByUserId(userInfo.userId))
         .rows;
-      return res.status(200).send(transactions);
+      return res.status(httpStatus.OK).send(transactions);
     } else {
       const transactions = (
         await getTransactionsByUserIdWithArray(userInfo.userId, stockIds)
       ).rows;
-      return res.status(200).send(transactions);
+      return res.status(httpStatus.OK).send(transactions);
     }
   } catch (error) {
-    console.log(error);
-    return res.sendStatus(500); //Server error
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR); //Server error
   }
 }
 
@@ -44,7 +44,7 @@ export async function newTransaction(req: Request, res: Response) {
     ).rows[0] as transactionValidationType;
 
     if (!validityInfo.isValidTransaction) {
-      return res.sendStatus(401); //Unauthorized
+      return res.sendStatus(httpStatus.UNAUTHORIZED); //Unauthorized
     }
 
     await createTransaction(
@@ -58,10 +58,10 @@ export async function newTransaction(req: Request, res: Response) {
       validityInfo.newBalance
     );
 
-    return res.sendStatus(200); //Ok!
+    return res.sendStatus(httpStatus.OK); //Ok!
   } catch (error) {
     console.log(error);
-    return res.sendStatus(500); //Server error
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR); //Server error
   }
 }
 
@@ -87,17 +87,17 @@ type transactionValidationType = {
 export async function editTransaction(req: Request, res: Response) {
   const userInfo = res.locals.info as foundUserInfoType;
   try {
-    return res.sendStatus(200); //Ok!
+    return res.sendStatus(httpStatus.OK); //Ok!
   } catch (error) {
-    return res.sendStatus(500); //Server error
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR); //Server error
   }
 }
 
 export async function deleteTransaction(req: Request, res: Response) {
   const userInfo = res.locals.info as foundUserInfoType;
   try {
-    return res.sendStatus(200); //Ok!
+    return res.sendStatus(httpStatus.OK); //Ok!
   } catch (error) {
-    return res.sendStatus(500); //Server error
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR); //Server error
   }
 }

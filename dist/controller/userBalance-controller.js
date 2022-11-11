@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { createNewUserBalance, getUserBalanceByUserId, updateBalance, } from '../repository/index.js';
+import httpStatus from 'http-status';
 export function getUserBalance(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var userInfo, userBalance, error_1;
@@ -49,12 +50,12 @@ export function getUserBalance(req, res) {
                 case 2:
                     userBalance = (_a.sent()).rows[0];
                     if (!userBalance) {
-                        return [2 /*return*/, res.sendStatus(404)]; // Not found
+                        return [2 /*return*/, res.sendStatus(httpStatus.NOT_FOUND)]; // Not found
                     }
-                    return [2 /*return*/, res.status(200).send(userBalance)]; // OK! + userBalance
+                    return [2 /*return*/, res.status(httpStatus.OK).send(userBalance)]; // OK! + userBalance
                 case 3:
                     error_1 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(500)]; //Server error
+                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)]; //Server error
                 case 4: return [2 /*return*/];
             }
         });
@@ -76,10 +77,10 @@ export function createUserBalance(req, res) {
                     return [4 /*yield*/, createNewUserBalance(userInfo.userId, userBalance)];
                 case 2:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(201)];
+                    return [2 /*return*/, res.sendStatus(httpStatus.CREATED)];
                 case 3:
                     error_2 = _a.sent();
-                    return [2 /*return*/, res.status(500).send(error_2.detail)]; //Server error
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_2.detail)]; //Server error
                 case 4: return [2 /*return*/];
             }
         });
@@ -99,10 +100,10 @@ export function modifyUserBalance(req, res) {
                     return [4 /*yield*/, updateBalance(userInfo.userId, newUserBalance)];
                 case 2:
                     _a.sent();
-                    return [2 /*return*/, res.sendStatus(200)]; // OK!
+                    return [2 /*return*/, res.sendStatus(httpStatus.OK)]; // OK!
                 case 3:
                     error_3 = _a.sent();
-                    return [2 /*return*/, res.status(500).send(error_3.detail)]; //Server error
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_3.detail)]; //Server error
                 case 4: return [2 /*return*/];
             }
         });
