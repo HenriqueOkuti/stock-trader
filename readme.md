@@ -1,3 +1,5 @@
+ple this Markdown can be used:
+
 # Stock Trader
 
 Stock Trader is a proof of concept for an api of an hypotethical stock trading website where the end user is able to register and review stock transactions.
@@ -79,7 +81,9 @@ Should your request info be correct you'll recieve as response:
 
 For the routes bellow you'll need to pass the token on the header with the format:
 
-```json{headers: {Authorization: 'Bearer token'}```
+```json
+{headers: {Authorization: 'Bearer token'}
+```
 
 <br />
 
