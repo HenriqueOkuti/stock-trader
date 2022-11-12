@@ -45,8 +45,6 @@ npm run start-js
 
 The routes are separated by what kind of functionality can (mostly) be inferred by their name.
 
-<br />
-
 #### **authUserRouter**
 
 - POST: `/signin`
@@ -71,7 +69,9 @@ Here you should send a body with the following format:
 
 Should your request info be correct you'll recieve as response:
 
-`{ "token": "token-string" }`
+```json
+{ "token": "token-string" }
+```
 
 <br />
 
