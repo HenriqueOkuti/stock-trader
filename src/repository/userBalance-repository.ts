@@ -29,6 +29,6 @@ export function updateBalance(userId: number, userBalance: valueBalance) {
   );
 }
 
-function fixDecimals(value: number): string {
+export function fixDecimals(value: number): string {
   return value.toString().replace('.', ',');
 }

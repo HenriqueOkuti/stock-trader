@@ -1,5 +1,6 @@
 import { editStockType, newStockType } from '../protocols/index.js';
 import { db } from '../config/index.js';
+import { fixDecimals } from '../repository/index.js';
 
 export function getStocks() {
   return db.query(`
@@ -44,7 +45,7 @@ export function createNewStock(stock: newStockType) {
 	    )
     insert into "stockInfo" ("stockId", price, "lastUpdate") values ((select stock_id from ins1), $3, now())
     ;`,
-    [stock.stockName, stock.stockTag, stock.price]
+    [stock.stockName, stock.stockTag, fixDecimals(stock.price)]
   );
 }
 

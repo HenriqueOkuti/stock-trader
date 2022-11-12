@@ -32,12 +32,14 @@ export async function createStock(req: Request, res: Response) {
   try {
     const stockExists = (await findStockByName(newStock.stockName)).rows[0];
     if (stockExists) {
-      return res.sendStatus(httpStatus.CONFLICT);
+      return res
+        .status(httpStatus.CONFLICT)
+        .send({ message: 'Stock name already in use' });
     }
     await createNewStock(newStock);
     return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.detail);
   }
 }
 

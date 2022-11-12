@@ -39,12 +39,20 @@ export async function newTransaction(req: Request, res: Response) {
     const stockInfo = (await findStockInfoById(transactionInfo.stockId))
       .rows[0] as stockInfoType;
 
+    if (!stockInfo) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ message: 'Stock not found' });
+    }
+
     const validityInfo = (
       await validityOfTransaction(userInfo.userId, stockInfo.price)
     ).rows[0] as transactionValidationType;
 
     if (!validityInfo.isValidTransaction) {
-      return res.sendStatus(httpStatus.UNAUTHORIZED);
+      return res
+        .status(httpStatus.UNAUTHORIZED)
+        .send({ message: 'Invalid balance for this transaction' });
     }
 
     await createTransaction(
@@ -60,7 +68,8 @@ export async function newTransaction(req: Request, res: Response) {
 
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    console.log(error);
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
   }
 }
 
