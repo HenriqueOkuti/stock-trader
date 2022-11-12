@@ -80,7 +80,9 @@ export function createStock(req, res) {
                 case 2:
                     stockExists = (_a.sent()).rows[0];
                     if (stockExists) {
-                        return [2 /*return*/, res.sendStatus(httpStatus.CONFLICT)];
+                        return [2 /*return*/, res
+                                .status(httpStatus.CONFLICT)
+                                .send({ message: 'Stock name already in use' })];
                     }
                     return [4 /*yield*/, createNewStock(newStock)];
                 case 3:
@@ -88,7 +90,7 @@ export function createStock(req, res) {
                     return [2 /*return*/, res.sendStatus(httpStatus.CREATED)];
                 case 4:
                     error_2 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_2.detail)];
                 case 5: return [2 /*return*/];
             }
         });

@@ -8,11 +8,3 @@ export function findSessionByToken(token: string) {
     [token]
   );
 }
-
-type sessionType = {
-  id: number;
-  userId: number;
-  token: string;
-  createdAt: string;
-  isValid: boolean;
-};
