@@ -79,7 +79,7 @@ Should your request info be correct you'll recieve as response:
 
 For the routes bellow you'll need to pass the token on the header with the format:
 
-```json
+```javascript
 {headers: {Authorization: 'Bearer token'}
 ```
 
