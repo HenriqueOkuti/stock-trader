@@ -1,4 +1,5 @@
 import { db } from '../config/index.js';
+import { fixDecimals } from '../repository/index.js';
 export function getStocks() {
     return db.query("\n    select \n        st.name, \n        st.\"stockTag\", \n        st.id as \"stockId\", \n        si.price, \n        si.\"lastUpdate\"  \n    from stocks st\n    join \"stockInfo\" si on st.id = si.\"stockId\"\n    ;");
 }
@@ -9,7 +10,7 @@ export function findStockByName(stockName) {
     return db.query("select * from stocks where name = $1;", [stockName]);
 }
 export function createNewStock(stock) {
-    return db.query("\n    with ins1 as (\n\t    insert into stocks (name, \"stockTag\") values ($1, $2)\n\t    returning id as stock_id\n\t    )\n    insert into \"stockInfo\" (\"stockId\", price, \"lastUpdate\") values ((select stock_id from ins1), $3, now())\n    ;", [stock.stockName, stock.stockTag, stock.price]);
+    return db.query("\n    with ins1 as (\n\t    insert into stocks (name, \"stockTag\") values ($1, $2)\n\t    returning id as stock_id\n\t    )\n    insert into \"stockInfo\" (\"stockId\", price, \"lastUpdate\") values ((select stock_id from ins1), $3, now())\n    ;", [stock.stockName, stock.stockTag, fixDecimals(stock.price)]);
 }
 export function findStockById(id) {
     return db.query("select * from stocks where id = $1;", [id]);

@@ -84,11 +84,18 @@ export function newTransaction(req, res) {
                 case 2:
                     stockInfo = (_a.sent())
                         .rows[0];
+                    if (!stockInfo) {
+                        return [2 /*return*/, res
+                                .status(httpStatus.BAD_REQUEST)
+                                .send({ message: 'Stock not found' })];
+                    }
                     return [4 /*yield*/, validityOfTransaction(userInfo.userId, stockInfo.price)];
                 case 3:
                     validityInfo = (_a.sent()).rows[0];
                     if (!validityInfo.isValidTransaction) {
-                        return [2 /*return*/, res.sendStatus(httpStatus.UNAUTHORIZED)];
+                        return [2 /*return*/, res
+                                .status(httpStatus.UNAUTHORIZED)
+                                .send({ message: 'Invalid balance for this transaction' })];
                     }
                     return [4 /*yield*/, createTransaction(userInfo.userId, transactionInfo.stockId, stockInfo.price)];
                 case 4:
@@ -99,7 +106,8 @@ export function newTransaction(req, res) {
                     return [2 /*return*/, res.sendStatus(httpStatus.OK)];
                 case 6:
                     error_2 = _a.sent();
-                    return [2 /*return*/, res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR)];
+                    console.log(error_2);
+                    return [2 /*return*/, res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error_2)];
                 case 7: return [2 /*return*/];
             }
         });

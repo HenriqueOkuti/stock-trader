@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import httpStatus from 'http-status';
 var nonExistentRouter = Router();
-nonExistentRouter.get('/stock', function (req, res) {
-    return res.sendStatus(httpStatus.NOT_FOUND);
+nonExistentRouter.get('*', function (req, res) {
+    return res
+        .status(httpStatus.NOT_FOUND)
+        .send({ message: 'Page does not exist' });
 });
 export { nonExistentRouter };

@@ -11,6 +11,6 @@ export function createNewUserBalance(userId, userBalance) {
 export function updateBalance(userId, userBalance) {
     return db.query("\n    update \"userBalance\" \n\t    set balance = $1 \n    where \"userId\" = $2;", [fixDecimals(userBalance.balance), userId]);
 }
-function fixDecimals(value) {
+export function fixDecimals(value) {
     return value.toString().replace('.', ',');
 }
