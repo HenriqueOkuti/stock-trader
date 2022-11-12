@@ -1,8 +1,14 @@
 {
-  "name": "poc_typescript",
+  "name": "stock-trader",
+  "author": "Henrique Krastins Okuti",
   "version": "1.0.0",
   "main": "src/app.ts",
   "type": "module",
+"scripts": {
+  "start-js": "node dist/app.js", 
+  "start-ts": "npx ts-node src/app.ts", 
+  "start-ts-nodemon": "npx nodemon src/app.ts"
+  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",

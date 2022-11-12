@@ -7,7 +7,9 @@ export function validateSchema(schema: ObjectSchema<any>) {
     const infoToValidate = req.body;
     const { error } = schema.validate(infoToValidate);
     if (error) {
-      return res.sendStatus(httpStatus.BAD_REQUEST);
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send(error.details.map((e) => e.message));
     } else {
       res.locals.info = infoToValidate;
       next();
