@@ -23,19 +23,19 @@ Refer to `.env.example` for further info.
 
 Use the database dump located on `/dump` to serve as the database. Some data is already included.
 
-```
+```bash
 psql -U username -d database < dump.sql
 ```
 
 Now all you need to run the typescript version is:
 
-```
+```bash
 npm run start-ts
 ```
 
 In case you want to run the javascript version:
 
-```
+```bash
 npm run start-js
 ```
 
@@ -51,7 +51,9 @@ The routes are separated by what kind of functionality can (mostly) be inferred 
 
 For the request to work you must send a body with the following format:
 
-`{ "name": "Username", "email": "email@mail.com", "password": "password" }`
+```json
+{ "name": "Username", "email": "email@mail.com", "password": "password" }
+```
 
 User duplication is verified via the "email" field, which must be unique. All fields are strings.
 
@@ -61,7 +63,9 @@ User duplication is verified via the "email" field, which must be unique. All fi
 
 Here you should send a body with the following format:
 
-`{ "email": "email@mail.com", "password": "password" }`
+```json
+{ "email": "email@mail.com", "password": "password" }
+```
 
 Should your request info be correct you'll recieve as response:
 
@@ -75,7 +79,7 @@ Should your request info be correct you'll recieve as response:
 
 For the routes bellow you'll need to pass the token on the header with the format:
 
-`{headers: {Authorization: 'Bearer token'}`
+```json{headers: {Authorization: 'Bearer token'}```
 
 <br />
 
@@ -85,7 +89,9 @@ For the routes bellow you'll need to pass the token on the header with the forma
 
 On the body of the request you'll need:
 
-`{ "stockName": "name", "stockTag": "tag", "price": "price" }`
+```json
+{ "stockName": "name", "stockTag": "tag", "price": "price" }
+```
 
 Where both "stockName" and "stockTag" are strings, while "price" can either be of type number or string. Additional requirements: both "stockName" and "stockTag" must be unique, with "stockTag" having length 3.
 
@@ -97,7 +103,9 @@ Quick suggestion while using: Pick the first two letters of stockName + a number
 
 On the body of the request you'll need:
 
-`{ "id": "stockId", "stockName": "New stock name", "stockTag": "New stock tag" }`
+```json
+{ "id": "stockId", "stockName": "New stock name", "stockTag": "New stock tag" }
+```
 
 Besides the requirements of the POST route, you'll need the "id" of the stock you want to change, which can either be a string or a number.
 
@@ -113,7 +121,7 @@ For this route to work you only need to pass the token on the header.
 
 However, there's another functionality: you can pass the specific stockIds you want to recieve via query string with the following format:
 
-`/stock?stockId=1` or `/stock?stockId=1,2,3`
+```/stock?stockId=1``` or ```/stock?stockId=1,2,3```
 
 Where each number is the stockId you want to recieve. Should there by none found (i.e. stockId only goes up to 5 on the db and you pass stockId=6) you'll recieve the full list of stocks. Do note that non numerical values on the query string should also result on the full list of stocks.
 
@@ -123,7 +131,9 @@ Where each number is the stockId you want to recieve. Should there by none found
 
 Here you need to pass the stockId of the stock you want to delete on the body of the request, with the format:
 
-`{ "id": "stockId" }`
+```json
+{ "id": "stockId" }
+```
 
 Where "stockId" can either be a string or a number. But do remember, ids are integers.
 
@@ -137,9 +147,9 @@ For the sake of simplicity, just like a user can edit any stock info, they can a
 
 Here you'll need a body with the format:
 
-{
-"balance": "value"
-}
+```json
+{"balance": "value"}
+```
 
 Where "value" can either be a string of a number. As with all the monetary values, "value" used a "toFixed(2)". Sorry, not sorry, if the money you used as the input gets rounded down.
 
@@ -149,7 +159,9 @@ Where "value" can either be a string of a number. As with all the monetary value
 
 Similarly to the POST route, all you need is a body with the format:
 
-`{ "balance": "1000.001" }`
+```json
+{ "balance": "1000.001" }
+```
 
 <br />
 
@@ -165,7 +177,7 @@ Nothing is needed to fetch the user balance besides the token.
 
 No body is required, the response is an array with all the stocks the user bought. However, you can get specific results by using a query string:
 
-`/transaction?stockId=1` or `/transaction?stockId=1,2,3`
+```/transaction?stockId=1``` or ```/transaction?stockId=1,2,3```
 
 Works pretty much the same way as the `/stock` route.
 
@@ -175,7 +187,9 @@ Works pretty much the same way as the `/stock` route.
 
 Here you'll need to send the following body:
 
-`{ "stockId": "stockId" }`
+```json
+{ "stockId": "stockId" }
+```
 
 Where "stockid" is the id of the stock the user wants to buy. Should the user have enough balance to buy it, it'll succeed. It can either be a string or a number, as long as the numerical value exists on the database.
 
@@ -187,7 +201,7 @@ Where "stockid" is the id of the stock the user wants to buy. Should the user ha
 
 Nothing is required besides the token. You'll get an array with the latest stocks and their last price update. You can use query string to filter array via "stockId"
 
-`/latest?stockId=1` or `/latest?stockId=1,2,3`
+```/latest?stockId=1``` or ```/latest?stockId=1,2,3```
 
 <br />
 
