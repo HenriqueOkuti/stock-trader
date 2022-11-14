@@ -4,10 +4,12 @@ Stock Trader is a proof of concept for an api of an hypotethical stock trading w
 
 ## Key Features
 
-- F1
-- F2
-- F3
-- F4
+- User authentication
+- Stock modification
+- Transaction history
+- Postgres database
+- Express
+- Typescript
 
 ## How to use
 
